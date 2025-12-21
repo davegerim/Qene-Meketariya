@@ -1,0 +1,87 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Ethiopic:wght@400;700&family=Cinzel:wght@400;700&display=swap');
+
+:root {
+  /* Palette: Ancient Gold & Deep Ink */
+  --color-bg-paper: #F2E8CF;
+  /* Parchment Light */
+  --color-bg-paper-dark: #E6D7B0;
+  /* Parchment Darker */
+
+  --color-text-primary: #2C1A1D;
+  /* Deep brownish black ink */
+  --color-text-muted: #5D4037;
+
+  --color-primary-gold: #D4AF37;
+  --color-primary-gold-dim: #B8962E;
+
+  --color-accent-red: #8B0000;
+  /* Crimson for Tilet */
+
+  --color-border-decorative: #D4AF37;
+
+  --font-serif: 'Cinzel', serif;
+  /* For English headings */
+  --font-ethiopic: 'Noto Serif Ethiopic', serif;
+  /* For Amharic */
+
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-elevation: 0 10px 15px -3px rgba(44, 26, 29, 0.1), 0 4px 6px -2px rgba(44, 26, 29, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-ethiopic);
+  background-color: var(--color-bg-paper);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  /* Premium Texture Styling */
+  background-color: #fdfbf7;
+  background-image:
+    radial-gradient(#d4af37 0.5px, transparent 0.5px),
+    radial-gradient(#d4af37 0.5px, #fdfbf7 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-family: var(--font-ethiopic);
+  font-size: 2.5rem;
+  letter-spacing: -0.02em;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-paper-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-gold-dim);
+  border-radius: 4px;
+}

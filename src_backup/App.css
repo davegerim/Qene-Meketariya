@@ -1,0 +1,260 @@
+/* App Container - Full Screen Desktop First */
+.app-container {
+  max-width: 100%;
+  min-height: 100vh;
+  display: flex;
+  /* Sidebar Layout */
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    flex-direction: row;
+  }
+}
+
+/* Header / Sidebar */
+.app-header {
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Desktop Sidebar Mode */
+@media (min-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 280px;
+    height: 100vh;
+    border-right: 1px solid rgba(212, 175, 55, 0.3);
+    border-bottom: none;
+    padding-top: 2rem;
+  }
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.logo-area h1 {
+  font-size: 1.5rem;
+  /* Larger Title */
+  font-family: var(--font-serif);
+  color: #2C1A1D;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Main Content Area */
+.app-main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .app-main {
+    padding: 3rem 4rem;
+    /* More breathing room */
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* Hero Section */
+.hero-card {
+  background: linear-gradient(135deg, #2C1A1D 0%, #5D4037 100%);
+  color: #D4AF37;
+  padding: 3rem;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-elevation);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-card h2 {
+  font-size: 3.5rem;
+  margin: 1rem 0;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero-kibour {
+  background: rgba(212, 175, 55, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+}
+
+/* Navigation (Sidebar vs Bottom) */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  z-index: 100;
+}
+
+/* Hide Bottom Nav on Desktop, styling moved to Sidebar in Code logic or we hide it */
+@media (min-width: 768px) {
+  .bottom-nav {
+    display: none;
+    /* We will use a proper sidebar nav in JS or move these items */
+  }
+}
+
+/* The Grid System */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 600px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.bento-item {
+  padding: 2rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.bento-item:hover {
+  transform: translateY(-5px);
+}
+
+/* Card Skins */
+.card-gold {
+  background: linear-gradient(135deg, #D4AF37 0%, #F9E79F 100%);
+  color: #2C1A1D;
+  box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+}
+
+.card-dark {
+  background: linear-gradient(135deg, #2C1A1D 0%, #1a1012 100%);
+  color: #D4AF37;
+  box-shadow: 0 10px 20px rgba(44, 26, 29, 0.3);
+}
+
+.card-red {
+  background: linear-gradient(135deg, #8B0000 0%, #580000 100%);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(139, 0, 0, 0.2);
+}
+
+.card-parchment {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  color: #5D4037;
+}
+
+/* Detail Views - Book Style */
+.detail-view {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 4rem;
+  border-radius: 4px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  min-height: 80vh;
+  border: 1px solid #eee;
+}
+
+/* List Items */
+.list-card {
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+}
+
+.list-card:hover {
+  border-color: var(--color-primary-gold);
+  background: #fafafa;
+  transform: translateX(5px);
+}
+/* Desktop Sidebar Navigation Styling */
+.desktop-nav {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .desktop-nav {
+    display: flex;
+  }
+}
+
+.desktop-nav .nav-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  color: #5D4037;
+  border-radius: 8px;
+  width: 100%;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.desktop-nav .nav-item:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: #2C1A1D;
+  transform: translateX(5px);
+}
+
+.desktop-nav .nav-item.active {
+  background: #2C1A1D;
+  color: #D4AF37;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Adjustments for Detail View */
+.detail-view {
+  animation: fadeIn 0.4s ease-out;
+}
+
