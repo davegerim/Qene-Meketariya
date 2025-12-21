@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { BookOpen, Calendar, Sun, Moon, Search, ChevronRight, Home, Feather, Star } from 'lucide-react';
 import { dailyMasnegeria, monthlyHolidays, annualHolidays, fasts, seasons } from '../src/data';
+import ExploreHero from './components/ExploreHero';
 
 const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => (
     <div className="search-box" style={{ margin: '1rem 0', position: 'relative' }}>
@@ -102,37 +103,41 @@ function App() {
     };
 
     return (
-        <div className="app-container">
-            {/* Sidebar for Desktop / Header for Mobile */}
-            <header className="app-header">
-                <div className="logo-area" onClick={() => { setActiveTab('home'); setSearchQuery(''); }}>
-                    <Feather className="icon-gold" size={28} />
-                    <h1>ቅኔ መቁጠሪያ</h1>
-                </div>
+        <div className="root-layout font-sans">
+            {activeTab === 'home' && <ExploreHero />}
 
-                <SearchBar onSearch={handleSearch} />
+            <div className="app-container">
+                {/* Sidebar for Desktop / Header for Mobile */}
+                <header className="app-header">
+                    <div className="logo-area" onClick={() => { setActiveTab('home'); setSearchQuery(''); }}>
+                        <Feather className="icon-gold" size={28} />
+                        <h1>ቅኔ መቁጠሪያ</h1>
+                    </div>
 
-                {/* Desktop Navigation embedded in Sidebar */}
-                <nav className="desktop-nav">
-                    <NavItem icon={<Home size={20} />} label="መነሻ (Home)" isActive={activeTab === 'home'} onClick={() => { setActiveTab('home'); setSelectedItem(null); }} />
-                    <NavItem icon={<Sun size={20} />} label="የዕለት (Daily)" isActive={activeTab === 'daily'} onClick={() => { setActiveTab('daily'); setSelectedItem(null); }} />
-                    <NavItem icon={<Calendar size={20} />} label="ወርኃዊ (Monthly)" isActive={activeTab === 'monthly'} onClick={() => { setActiveTab('monthly'); setSelectedItem(null); }} />
-                    <NavItem icon={<Star size={20} />} label="ዓመታዊ (Annual)" isActive={activeTab === 'annual'} onClick={() => { setActiveTab('annual'); setSelectedItem(null); }} />
-                    <NavItem icon={<BookOpen size={20} />} label="አጽዋማት (Fasts)" isActive={activeTab === 'fasts'} onClick={() => { setActiveTab('fasts'); setSelectedItem(null); }} />
+                    <SearchBar onSearch={handleSearch} />
+
+                    {/* Desktop Navigation embedded in Sidebar */}
+                    <nav className="desktop-nav">
+                        <NavItem icon={<Home size={20} />} label="መነሻ (Home)" isActive={activeTab === 'home'} onClick={() => { setActiveTab('home'); setSelectedItem(null); }} />
+                        <NavItem icon={<Sun size={20} />} label="የዕለት (Daily)" isActive={activeTab === 'daily'} onClick={() => { setActiveTab('daily'); setSelectedItem(null); }} />
+                        <NavItem icon={<Calendar size={20} />} label="ወርኃዊ (Monthly)" isActive={activeTab === 'monthly'} onClick={() => { setActiveTab('monthly'); setSelectedItem(null); }} />
+                        <NavItem icon={<Star size={20} />} label="ዓመታዊ (Annual)" isActive={activeTab === 'annual'} onClick={() => { setActiveTab('annual'); setSelectedItem(null); }} />
+                        <NavItem icon={<BookOpen size={20} />} label="አጽዋማት (Fasts)" isActive={activeTab === 'fasts'} onClick={() => { setActiveTab('fasts'); setSelectedItem(null); }} />
+                    </nav>
+                </header>
+
+                <main className="app-main">
+                    {renderContent()}
+                </main>
+
+                {/* Mobile Bottom Nav */}
+                <nav className="bottom-nav">
+                    <NavItem icon={<Home size={20} />} label="መነሻ" isActive={activeTab === 'home'} onClick={() => { setActiveTab('home'); setSelectedItem(null); }} />
+                    <NavItem icon={<Sun size={20} />} label="የዕለት" isActive={activeTab === 'daily'} onClick={() => { setActiveTab('daily'); setSelectedItem(null); }} />
+                    <NavItem icon={<Calendar size={20} />} label="ወርኃዊ" isActive={activeTab === 'monthly'} onClick={() => { setActiveTab('monthly'); setSelectedItem(null); }} />
+                    <NavItem icon={<Star size={20} />} label="ዓመታዊ" isActive={activeTab === 'annual'} onClick={() => { setActiveTab('annual'); setSelectedItem(null); }} />
                 </nav>
-            </header>
-
-            <main className="app-main">
-                {renderContent()}
-            </main>
-
-            {/* Mobile Bottom Nav */}
-            <nav className="bottom-nav">
-                <NavItem icon={<Home size={20} />} label="መነሻ" isActive={activeTab === 'home'} onClick={() => { setActiveTab('home'); setSelectedItem(null); }} />
-                <NavItem icon={<Sun size={20} />} label="የዕለት" isActive={activeTab === 'daily'} onClick={() => { setActiveTab('daily'); setSelectedItem(null); }} />
-                <NavItem icon={<Calendar size={20} />} label="ወርኃዊ" isActive={activeTab === 'monthly'} onClick={() => { setActiveTab('monthly'); setSelectedItem(null); }} />
-                <NavItem icon={<Star size={20} />} label="ዓመታዊ" isActive={activeTab === 'annual'} onClick={() => { setActiveTab('annual'); setSelectedItem(null); }} />
-            </nav>
+            </div>
         </div>
     );
 }
