@@ -1,10 +1,10 @@
 import React from 'react';
-import { Globe, Menu, Mountain, Tent, TreePine, Sun, Umbrella } from 'lucide-react';
+import { Globe, Menu, Mountain, Tent, TreePine, Sun, Umbrella, Feather, Sparkles, Cloud } from 'lucide-react';
 import Image from 'next/image';
 
 const ExploreHero = () => {
     return (
-        <div className="w-full relative bg-white font-sans text-slate-800 overflow-hidden shadow-2xl border-b border-slate-200">
+        <div className="w-full relative font-sans text-slate-800">
             {/* Hero Section */}
             <div className="relative min-h-[800px] w-full overflow-hidden bg-slate-900">
                 {/* Background Gradient */}
@@ -84,7 +84,7 @@ const ExploreHero = () => {
             </div>
 
             {/* Category Filter Bar */}
-            <div className="relative z-40 -mt-10 flex justify-center px-4">
+            <div className="relative z-40 -mt-10 flex justify-center px-4 mb-8">
                 <div className="flex flex-wrap justify-center gap-4 bg-transparent p-2">
                     <CategoryPill icon={<Sun className="w-5 h-5 text-amber-600" />} label="የዕለት (Daily)" />
                     <CategoryPill icon={<Umbrella className="w-5 h-5 text-blue-600" />} label="ወርኃዊ (Monthly)" />
@@ -92,36 +92,68 @@ const ExploreHero = () => {
                     <CategoryPill icon={<Mountain className="w-5 h-5 text-red-600" />} label="አጽዋማት (Fasts)" />
                 </div>
             </div>
+            {/* Wisdom / Verse Section - "Sem Ena Werq" Style */}
+            {/* Simple CSS horizontal scroll - no GSAP, no spacers, no unwanted space */}
+            <div className="relative z-40 py-16 px-4 w-full" style={{ background: '#fdfbf7' }}>
+                <div className="flex items-center justify-center gap-4 mb-12">
+                    <div className="h-[2px] w-12 bg-amber-400/50"></div>
+                    <h2 className="text-xl md:text-3xl font-bold text-[#D4AF37] font-serif tracking-[0.2em] text-center drop-shadow-md">
+                        TIBEBE (ጥበብ)
+                    </h2>
+                    <div className="h-[2px] w-12 bg-amber-400/50"></div>
+                </div>
 
-            {/* Featured Article Section */}
-            <div className="bg-[#fdfbf7] pt-24 pb-16 px-4 md:px-12" style={{ backgroundImage: 'radial-gradient(#d4af37 0.5px, transparent 0.5px), radial-gradient(#d4af37 0.5px, #fdfbf7 0.5px)', backgroundSize: '20px 20px', backgroundPosition: '0 0, 10px 10px' }}>
-                <h2 className="text-3xl font-bold text-[#2C1A1D] text-center mb-12 font-serif border-b-2 border-amber-400 inline-block mx-auto pb-2 px-8">ፈጣን መዳረሻ (Quick Access)</h2>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
-                    <FeatureCard
-                        img="/feat-dubai.png"
-                        title="የዕለት ማስነገሪያ"
-                        location="Daily Qene"
+                {/* Horizontal Scroll Track - Simple overflow scroll */}
+                <div className="flex gap-8 overflow-x-auto pb-4 px-4 md:px-12 items-center hide-scrollbar">
+                    <WisdomCard
+                        day="እሁድ"
+                        title="የሰንበት ክብር (Creation)"
+                        desc="The Beginning. God created the Heavens, the Earth, Light, and the Angels."
+                        icon={<Sparkles className="w-6 h-6 text-amber-200" />}
                     />
-                    <FeatureCard
-                        img="/feat-forest.png"
-                        title="ወርኃዊ በዓላት"
-                        location="Monthly Saints"
+                    <WisdomCard
+                        day="ሰኞ"
+                        title="ጠፈር (The Firmament)"
+                        desc="On this day, the heavens were stretched out like a curtain."
+                        icon={<Globe className="w-6 h-6 text-cyan-200" />}
                     />
-                    <FeatureCard
-                        img="/feat-alps.png"
-                        title="ዓመታዊ በዓላት"
-                        location="Annual Festivals"
+                    <WisdomCard
+                        day="ማክሰኞ"
+                        title="አትክልት (Plants)"
+                        desc="The earth brought forth grass, and herb yielding seed."
+                        icon={<TreePine className="w-6 h-6 text-green-300" />}
                     />
-                    <FeatureCard
-                        img="/hero-scroll.png"
-                        title="አጽዋማት"
-                        location="Fasting Seasons"
+                    <WisdomCard
+                        day="ረቡዕ"
+                        title="ብርሃናት (Lights)"
+                        desc="Sun, Moon, and Stars were set in the firmament of the heaven."
+                        icon={<Sun className="w-6 h-6 text-yellow-300" />}
+                    />
+                    <WisdomCard
+                        day="ሐሙስ"
+                        title="ዘመን (Creatures)"
+                        desc="The waters brought forth abundantly the moving creature that hath life."
+                        icon={<Globe className="w-6 h-6 text-blue-300" />}
+                    />
+                    <WisdomCard
+                        day="ዓርብ"
+                        title="ስነ ፍጥረት (Mankind)"
+                        desc="God created man in his own image, in the image of God created he him."
+                        icon={<Sun className="w-6 h-6 text-red-300" />}
+                    />
+                    <WisdomCard
+                        day="ቅዳሜ"
+                        title="ዕረፍት (Sabbath)"
+                        desc="The Seventh Day. God rested from all His work which He had made."
+                        icon={<Cloud className="w-6 h-6 text-slate-200" />}
                     />
                 </div>
             </div>
+            {/* FOOTER: "Legacy & Roots" - The Foundation */}
         </div>
     );
 };
+
 
 const CategoryPill = ({ icon, label }: { icon: any, label: string }) => (
     <button className="flex items-center gap-3 bg-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border border-slate-100 min-w-[150px] group">
@@ -132,14 +164,31 @@ const CategoryPill = ({ icon, label }: { icon: any, label: string }) => (
     </button>
 );
 
-const FeatureCard = ({ img, title, location }: { img: string, title: string, location: string }) => (
-    <div className="group relative h-96 rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 border border-amber-100 bg-gray-100">
-        <Image src={img} alt={title} fill className="object-cover transition duration-700 group-hover:scale-110" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A1D] via-transparent to-transparent opacity-80 group-hover:opacity-90 transition duration-300" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-2 group-hover:translate-y-0 transition duration-300">
-            <span className="text-amber-400 font-bold text-sm tracking-uppercase mb-2 block font-serif">{location}</span>
-            <h3 className="text-white text-xl font-bold font-serif">{title}</h3>
+const WisdomCard = ({ day, title, desc, icon }: { day: string, title: string, desc: string, icon: any }) => (
+    <div className="min-w-[280px] md:min-w-[320px] bg-gradient-to-br from-[#2C1A1D]/80 to-[#1a120b]/90 backdrop-blur-md border border-amber-500/20 rounded-xl p-6 relative group overflow-hidden transition-all duration-500 snap-center cursor-pointer hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10">
+        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition duration-500 transform group-hover:rotate-12 group-hover:scale-110">
+            <Feather className="w-32 h-32 text-amber-500" />
         </div>
+
+        {/* Decorative corner accent */}
+        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-amber-500/30 rounded-tl-lg opacity-50 group-hover:opacity-100 transition duration-500"></div>
+        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-amber-500/30 rounded-br-lg opacity-50 group-hover:opacity-100 transition duration-500"></div>
+
+        <div className="relative z-10">
+            <div className="flex items-center justify-between mb-4">
+                <span className="text-amber-100 font-bold font-serif text-sm tracking-widest uppercase bg-amber-500/20 border border-amber-500/30 px-3 py-1 rounded-full">{day}</span>
+                <div className="p-2 bg-white/5 rounded-full border border-white/10 group-hover:border-amber-400/40 transition duration-300">
+                    {icon}
+                </div>
+            </div>
+            <h3 className="text-xl font-bold text-amber-50 mb-3 font-serif drop-shadow-sm group-hover:text-amber-200 transition">{title}</h3>
+            <p className="text-slate-300 text-sm leading-relaxed border-l-2 border-amber-500/30 pl-4 h-16 opacity-80 group-hover:opacity-100 transition">
+                {desc}
+            </p>
+        </div>
+
+        {/* Hover Glow Effect */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/0 via-amber-400/5 to-amber-500/0 opacity-0 group-hover:opacity-100 transition duration-700 blur-2xl"></div>
     </div>
 );
 

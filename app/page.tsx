@@ -4,23 +4,18 @@ import React, { useState } from 'react';
 import { BookOpen, Calendar, Sun, Moon, Search, ChevronRight, Home, Feather, Star } from 'lucide-react';
 import { dailyMasnegeria, monthlyHolidays, annualHolidays, fasts, seasons } from '../src/data';
 import ExploreHero from './components/ExploreHero';
+import Footer from './components/Footer';
 
 const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => (
-    <div className="search-box" style={{ margin: '1rem 0', position: 'relative' }}>
+    <div className="search-box">
         <input
             type="text"
-            placeholder="ይፈልጉ (Search)..."
+            placeholder="ፈልግ (Search)..."
             onChange={(e) => onSearch(e.target.value)}
-            style={{
-                width: '100%',
-                padding: '0.8rem 1rem 0.8rem 2.5rem',
-                borderRadius: '8px',
-                border: '1px solid var(--color-primary-gold-dim)',
-                background: 'rgba(255,255,255,0.5)',
-                fontFamily: 'inherit'
-            }}
         />
-        <Search size={18} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', opacity: 0.5 }} />
+        <div className="search-icon-wrapper">
+            <Search className="search-icon" />
+        </div>
     </div>
 );
 
@@ -104,7 +99,7 @@ function App() {
 
     return (
         <div className="root-layout font-sans">
-            {activeTab === 'home' && <ExploreHero />}
+            <ExploreHero />
 
             <div className="app-container">
                 {/* Sidebar for Desktop / Header for Mobile */}
@@ -138,6 +133,8 @@ function App() {
                     <NavItem icon={<Star size={20} />} label="ዓመታዊ" isActive={activeTab === 'annual'} onClick={() => { setActiveTab('annual'); setSelectedItem(null); }} />
                 </nav>
             </div>
+
+            <Footer />
         </div>
     );
 }
@@ -159,9 +156,13 @@ const HomeDashboard = ({ onNavigate, onSelect }) => {
     return (
         <div className="dashboard animate-fade-in">
             {/* New Website Hero Banner */}
-            <section className="hero-wrapper" onClick={() => onSelect(ethDay)}>
+            {/* Only show the internal hero if we are NOT on the home tab, or if we want a different featured item. 
+                Since ExploreHero is already huge, let's keep this as a secondary "Word of the Day" card but smaller, 
+                or hide it to reduce redundancy. Let's make it a smaller "Featured Qene" card. 
+            */}
+            <section className="hero-wrapper" onClick={() => onSelect(ethDay)} style={{ minHeight: '300px', marginBottom: '2rem' }}>
                 <span className="hero-badge">የዕለቱ ቃል</span>
-                <h2 className="hero-title">{ethDay.dayAmharic}</h2>
+                <h2 className="hero-title" style={{ fontSize: '2.5rem' }}>{ethDay.dayAmharic}</h2>
                 <p className="hero-subtitle">{ethDay.title}</p>
                 <button className="hero-cta" onClick={(e) => { e.stopPropagation(); onNavigate('daily'); }}>
                     ሙሉውን አንብብ
@@ -173,19 +174,19 @@ const HomeDashboard = ({ onNavigate, onSelect }) => {
             </section>
 
             <div className="bento-grid">
-                <div className="bento-item card-gold-img" onClick={() => onNavigate('daily')}>
+                <div className="bento-item card-gold-img" style={{ backgroundImage: "linear-gradient(rgba(44, 26, 29, 0.4), rgba(44, 26, 29, 0.6)), url('/card-daily.png')" }} onClick={() => onNavigate('daily')}>
                     <Sun size={40} />
                     <span>የዕለት ማስነገሪያ</span>
                 </div>
-                <div className="bento-item card-dark-img" onClick={() => onNavigate('monthly')}>
+                <div className="bento-item card-dark-img" style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('/card-monthly.png')" }} onClick={() => onNavigate('monthly')}>
                     <Moon size={40} />
                     <span>ወርኃ በዓላት</span>
                 </div>
-                <div className="bento-item card-parchment-img" onClick={() => onNavigate('annual')}>
+                <div className="bento-item card-parchment-img" style={{ backgroundImage: "linear-gradient(rgba(242, 232, 207, 0.4), rgba(44, 26, 29, 0.6)), url('/card-annual.png')" }} onClick={() => onNavigate('annual')}>
                     <Calendar size={40} />
                     <span>ዓመታዊ በዓላት</span>
                 </div>
-                <div className="bento-item card-red-img" onClick={() => onNavigate('fasts')}>
+                <div className="bento-item card-red-img" style={{ backgroundImage: "linear-gradient(rgba(139, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url('/card-fasts.png')" }} onClick={() => onNavigate('fasts')}>
                     <BookOpen size={40} />
                     <span>አጽዋማት</span>
                 </div>
