@@ -91,7 +91,7 @@ function App() {
             case 'annual':
                 return <AnnualList onSelect={setSelectedItem} />;
             case 'fasts':
-                return <FastsList />;
+                return <FastsList onSelect={setSelectedItem} />;
             default:
                 return <HomeDashboard onNavigate={setActiveTab} onSelect={setSelectedItem} />;
         }
@@ -113,11 +113,15 @@ function App() {
 
                     {/* Desktop Navigation embedded in Sidebar */}
                     <nav className="desktop-nav">
-                        <NavItem icon={<Home size={20} />} label="መነሻ (Home)" isActive={activeTab === 'home'} onClick={() => { setActiveTab('home'); setSelectedItem(null); }} />
-                        <NavItem icon={<Sun size={20} />} label="የዕለት (Daily)" isActive={activeTab === 'daily'} onClick={() => { setActiveTab('daily'); setSelectedItem(null); }} />
-                        <NavItem icon={<Calendar size={20} />} label="ወርኃዊ (Monthly)" isActive={activeTab === 'monthly'} onClick={() => { setActiveTab('monthly'); setSelectedItem(null); }} />
-                        <NavItem icon={<Star size={20} />} label="ዓመታዊ (Annual)" isActive={activeTab === 'annual'} onClick={() => { setActiveTab('annual'); setSelectedItem(null); }} />
-                        <NavItem icon={<BookOpen size={20} />} label="አጽዋማት (Fasts)" isActive={activeTab === 'fasts'} onClick={() => { setActiveTab('fasts'); setSelectedItem(null); }} />
+                        <div className="nav-section-wrapper">
+                            <span className="nav-divider-line"></span>
+                            <div className="nav-section-title">🥀 ቅኔ ማስነገሪያ ታሪኮች 🥀</div>
+                            <span className="nav-divider-line"></span>
+                        </div>
+                        <NavItem icon={<Sun size={20} />} label="🍄የዕለት ማስነገሪያዎች" isActive={activeTab === 'daily'} onClick={() => { setActiveTab('daily'); setSelectedItem(null); }} />
+                        <NavItem icon={<BookOpen size={20} />} label="🍄 አጽዋማት" isActive={activeTab === 'fasts'} onClick={() => { setActiveTab('fasts'); setSelectedItem(null); }} />
+                        <NavItem icon={<Calendar size={20} />} label="🍄ወርኃ በዓላት" isActive={activeTab === 'monthly'} onClick={() => { setActiveTab('monthly'); setSelectedItem(null); }} />
+                        <NavItem icon={<Star size={20} />} label="🍄ዓመታዊ በዓላት" isActive={activeTab === 'annual'} onClick={() => { setActiveTab('annual'); setSelectedItem(null); }} />
                     </nav>
                 </header>
 
@@ -245,60 +249,149 @@ const AnnualList = ({ onSelect }) => (
     </div>
 );
 
-const FastsList = () => (
-    <div className="list-container animate-slide-up">
-        <h2>አጽዋማት</h2>
-        <div className="fasts-grid">
-            {fasts.map((fast, idx) => (
-                <div key={idx} className="fast-card">
-                    <div className="fast-icon">✞</div>
-                    <h3>{fast.title}</h3>
-                    <span className="fast-duration">{fast.duration}</span>
-                </div>
-            ))}
-        </div>
-    </div>
-);
+const FastsList = ({ onSelect }: { onSelect: (item: any) => void }) => {
+    // Group fasts by parentSection
+    const grouped: Record<string, any[]> = {};
+    const standalone: any[] = [];
 
-const DetailView = ({ item, onBack }) => (
-    <div className="detail-view animate-scale-in">
-        <button className="back-btn" onClick={onBack}>← ተመለስ</button>
-        <div className="detail-scroll">
-            <div className="detail-header">
-                <div className="ornament-top"></div>
-                <h1>{item.dayAmharic || item.title || `ቀን ${item.day}`}</h1>
-                {item.dayEnglish && <span className="subtitle">{item.dayEnglish}</span>}
-            </div>
+    fasts.forEach((fast: any, idx: number) => {
+        if (fast.parentSection) {
+            if (!grouped[fast.parentSection]) {
+                grouped[fast.parentSection] = [];
+            }
+            grouped[fast.parentSection].push({ ...fast, originalIndex: idx });
+        } else {
+            standalone.push({ ...fast, originalIndex: idx });
+        }
+    });
 
-            <div className="detail-body">
-                {item.description && (
-                    <div className="story-block">
-                        <p className="drop-cap">{item.description}</p>
+    return (
+        <div className="list-container animate-slide-up">
+            <h2>አጽዋማት</h2>
+            <div className="fasts-grid">
+                {/* Render standalone fasts first (before Great Lent) */}
+                {standalone.filter(f => f.originalIndex < 6).map((fast, idx) => (
+                    <div key={`s-${idx}`} className="fast-card" onClick={() => onSelect(fast)} style={{ cursor: 'pointer' }}>
+                        <div className="fast-header">
+                            <div className="fast-icon">✞</div>
+                            <h3>{fast.title}</h3>
+                        </div>
                     </div>
-                )}
+                ))}
 
-                {item.qeneThemes && (
-                    <div className="qene-box">
-                        <h3>ለቅኔ የሚያስነግረው</h3>
-                        <ul>
-                            {item.qeneThemes.map((theme, i) => (
-                                <li key={i}>{theme}</li>
+                {/* Render grouped sections (Great Lent) */}
+                {Object.entries(grouped).map(([sectionName, items]) => (
+                    <div key={sectionName} className="fast-section-group">
+                        <div className="section-header">
+                            <div className="section-icon">🌿</div>
+                            <h3>{sectionName}</h3>
+                            <span className="section-badge">{items.length} ሳምንታት</span>
+                        </div>
+                        <div className="section-children">
+                            {items.map((fast, idx) => (
+                                <div key={idx} className="fast-card child-card" onClick={() => onSelect(fast)} style={{ cursor: 'pointer' }}>
+                                    <div className="fast-header">
+                                        <div className="fast-icon child-icon">✦</div>
+                                        <h3>{fast.title}</h3>
+                                    </div>
+                                    {fast.titleEnglish && <span className="week-english">{fast.titleEnglish}</span>}
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
-                )}
+                ))}
 
-                {item.events && (
-                    <div className="events-list">
-                        <h3>በዚህ ዕለት የሚታሰቡ</h3>
-                        <ul>
-                            {item.events.map((ev, i) => <li key={i}>{ev}</li>)}
-                        </ul>
+                {/* Render remaining standalone fasts (after Great Lent) */}
+                {standalone.filter(f => f.originalIndex >= 6).map((fast, idx) => (
+                    <div key={`e-${idx}`} className="fast-card" onClick={() => onSelect(fast)} style={{ cursor: 'pointer' }}>
+                        <div className="fast-header">
+                            <div className="fast-icon">✞</div>
+                            <h3>{fast.title}</h3>
+                        </div>
                     </div>
-                )}
+                ))}
             </div>
         </div>
-    </div>
-);
+    );
+};
+
+const DetailView = ({ item, onBack }) => {
+    // Scroll to specific section if requested
+    React.useEffect(() => {
+        if (item.scrollTo) {
+            // Small timeout to allow render
+            const timer = setTimeout(() => {
+                const elements = document.getElementsByTagName('h4');
+                for (let el of elements) {
+                    if (el.textContent.includes(item.scrollTo)) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // Add highlight effect
+                        el.style.backgroundColor = 'rgba(212, 175, 55, 0.2)';
+                        el.style.borderRadius = '4px';
+                        setTimeout(() => el.style.backgroundColor = 'transparent', 2000);
+                        break;
+                    }
+                }
+            }, 100);
+            return () => clearTimeout(timer);
+        }
+    }, [item]);
+
+    return (
+        <div className="detail-view animate-scale-in">
+            <button className="back-btn" onClick={onBack}>← ተመለስ</button>
+            <div className="detail-scroll">
+                <div className="detail-header">
+                    <div className="ornament-top"></div>
+                    <h1>{item.dayAmharic || item.title || `ቀን ${item.day}`}</h1>
+                    {item.dayEnglish && <span className="subtitle">{item.dayEnglish}</span>}
+                </div>
+
+                <div className="detail-body">
+                    {item.description && (
+                        <div className="story-block">
+                            <p className="drop-cap">{item.description}</p>
+                        </div>
+                    )}
+
+                    {item.qeneThemes && (
+                        <div className="qene-box">
+                            <h3>ለቅኔ የሚያስነግረው</h3>
+                            <div className="qene-list">
+                                {item.qeneThemes.map((theme, i) => {
+                                    // Check for Headers
+                                    if (theme.match(/^[🍂🌿🍄🌴]/)) {
+                                        return <h4 key={i} className="theme-sub-header">{theme}</h4>;
+                                    }
+                                    // Check for Conclusion/Footer
+                                    if (theme.includes("መልካም የቅኔ ቆጠራ") || theme.includes("በረከቱ ትደርብን") || theme.includes("አምላካችን መድኃኔ ዓለም")) {
+                                        return <div key={i} className="theme-footer">{theme}</div>;
+                                    }
+                                    // Check for Comparison text
+                                    if (theme.includes("ንጽጽር") || theme.includes("አንጻር")) {
+                                        return <h4 key={i} className="theme-sub-header">⚖️ {theme}</h4>;
+                                    }
+                                    // Default List Point
+                                    const hasArrow = theme.trim().startsWith("➥") || theme.trim().startsWith("👉") || theme.trim().startsWith("➙");
+                                    return <li key={i} className={hasArrow ? "no-bullet" : ""} style={hasArrow ? { listStyleType: 'none', paddingLeft: 0 } : {}}>{theme}</li>;
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+                    {item.events && (
+                        <div className="events-list">
+                            <h3>በዚህ ዕለት የሚታሰቡ</h3>
+                            <ul>
+                                {item.events.map((ev, i) => <li key={i}>{ev}</li>)}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+
+};
 
 export default App;
