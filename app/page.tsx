@@ -241,7 +241,6 @@ const AnnualList = ({ onSelect }) => (
                     <div className="timeline-content">
                         <span className="date-badge">{holiday.month} {holiday.day}</span>
                         <h3>{holiday.title}</h3>
-                        <p>{holiday.description}</p>
                     </div>
                 </div>
             ))}
@@ -360,11 +359,11 @@ const DetailView = ({ item, onBack }) => {
                             <div className="qene-list">
                                 {item.qeneThemes.map((theme, i) => {
                                     // Check for Headers
-                                    if (theme.match(/^[🍂🌿🍄🌴]/)) {
+                                    if (theme.match(/^[🍂🌿🍄🌴🌹☘️]/)) {
                                         return <h4 key={i} className="theme-sub-header">{theme}</h4>;
                                     }
                                     // Check for Conclusion/Footer
-                                    if (theme.includes("መልካም የቅኔ ቆጠራ") || theme.includes("በረከቱ ትደርብን") || theme.includes("አምላካችን መድኃኔ ዓለም")) {
+                                    if (theme.includes("መልካም የቅኔ ቆጠራ") || theme.includes("በረከቱ ትደርብን") || theme.includes("አምላካችን መድኃኔ ዓለም") || theme.includes("ጥንተ ልደቱ")) {
                                         return <div key={i} className="theme-footer">{theme}</div>;
                                     }
                                     // Check for Comparison text
@@ -372,7 +371,7 @@ const DetailView = ({ item, onBack }) => {
                                         return <h4 key={i} className="theme-sub-header">⚖️ {theme}</h4>;
                                     }
                                     // Default List Point
-                                    const hasArrow = theme.trim().startsWith("➥") || theme.trim().startsWith("👉") || theme.trim().startsWith("➙");
+                                    const hasArrow = theme.trim().startsWith("➥") || theme.trim().startsWith("👉") || theme.trim().startsWith("➙") || theme.trim().startsWith("⚡️") || theme.trim().startsWith("🦋") || theme.trim().startsWith("➺");
                                     return <li key={i} className={hasArrow ? "no-bullet" : ""} style={hasArrow ? { listStyleType: 'none', paddingLeft: 0 } : {}}>{theme}</li>;
                                 })}
                             </div>
