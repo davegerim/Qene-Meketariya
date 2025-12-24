@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { BookOpen, Calendar, Sun, Moon, Search, ChevronRight, Home, Feather, Star } from 'lucide-react';
-import { dailyMasnegeria, monthlyHolidays, annualHolidays, fasts, seasons } from '../src/data';
+import { dailyMasnegeria, monthlyHolidays, annualHolidays, fasts, seasons, stMichaelMonthlyData, stMaryMonthlyData } from '../src/data';
 import ExploreHero from './components/ExploreHero';
 import Footer from './components/Footer';
 
@@ -314,17 +314,18 @@ const FastsList = ({ onSelect }: { onSelect: (item: any) => void }) => {
     );
 };
 
-const DetailView = ({ item, onBack }) => {
+const DetailView = ({ item, onBack }: { item: any, onBack: () => void }) => {
+    // Local state to track if a specific sub-event is selected
+    const [activeSelection, setActiveSelection] = useState<any>(null);
+
     // Scroll to specific section if requested
     React.useEffect(() => {
         if (item.scrollTo) {
-            // Small timeout to allow render
             const timer = setTimeout(() => {
                 const elements = document.getElementsByTagName('h4');
                 for (let el of elements) {
-                    if (el.textContent.includes(item.scrollTo)) {
+                    if (el.textContent?.includes(item.scrollTo)) {
                         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        // Add highlight effect
                         el.style.backgroundColor = 'rgba(212, 175, 55, 0.2)';
                         el.style.borderRadius = '4px';
                         setTimeout(() => el.style.backgroundColor = 'transparent', 2000);
@@ -336,41 +337,88 @@ const DetailView = ({ item, onBack }) => {
         }
     }, [item]);
 
+    // Handle deep navigation back
+    const handleBack = () => {
+        if (activeSelection) {
+            // Check if we are deeper in a hierarchy (e.g. Month -> St Michael)
+            if (activeSelection.parent) {
+                setActiveSelection(activeSelection.parent);
+            } else {
+                setActiveSelection(null); // Go back to Day view
+            }
+        } else {
+            onBack(); // Go back to List view
+        }
+    };
+
+    // Handle Link Click (Navigation to Month)
+    const handleLinkClick = (linkString: string, parentItem: any) => {
+        const parts = linkString.split('~');
+        const monthName = parts[1] || parts[0];
+        const isMary = parentItem.title && parentItem.title.includes("ማርያም");
+
+        let monthlyContent;
+
+        if (isMary) {
+            monthlyContent = stMaryMonthlyData[monthName] || {
+                title: `ቅድስት ድንግል ማርያም - ${monthName}`,
+                description: `የ${monthName} ወር የቅድስት ድንግል ማርያም በዓል ታሪክ በቅርቡ ይካተታል።`,
+                qeneThemes: ["ዝርዝር ታሪኩ እና ቅኔው በሂደት ላይ ነው..."]
+            };
+        } else {
+            // Default to St Michael
+            monthlyContent = stMichaelMonthlyData[monthName] || {
+                title: `ቅዱስ ሚካኤል - ${monthName}`,
+                description: `የ${monthName} ወር የቅዱስ ሚካኤል በዓል ማስነገሪያ ታሪክ በቅርቡ ይካተታል።`,
+                qeneThemes: ["ዝርዝር ታሪኩ እና ቅኔው በሂደት ላይ ነው..."]
+            };
+        }
+
+        const newSelection = {
+            ...monthlyContent,
+            parent: parentItem // Save specific parent to return to
+        };
+        setActiveSelection(newSelection);
+    };
+
+    // Determine what to display
+    const displayItem = activeSelection || item;
+    const isSubView = !!activeSelection;
+
+    // Check if the current item has a list of events to display (only if not already deep in a sub-view that shouldn't show them)
+    // If we are looking at "Saint Michael", we show LINKS, not the generic event list again.
+    // The generic event list is usually only for the top-level Day item.
+    const showEventList = item.events && !activeSelection;
+
     return (
         <div className="detail-view animate-scale-in">
-            <button className="back-btn" onClick={onBack}>← ተመለስ</button>
+            <button className="back-btn" onClick={handleBack}>
+                ← {isSubView ? "ተመለስ" : "ወደ በዓላት ዝርዝር"}
+            </button>
             <div className="detail-scroll">
                 <div className="detail-header">
                     <div className="ornament-top"></div>
-                    <h1>{item.dayAmharic || item.title || `ቀን ${item.day}`}</h1>
-                    {item.dayEnglish && <span className="subtitle">{item.dayEnglish}</span>}
+                    <h1>{displayItem.title || displayItem.dayAmharic || `ቀን ${displayItem.day}`}</h1>
+                    {(displayItem.titleEnglish || displayItem.dayEnglish) && (
+                        <span className="subtitle">{displayItem.titleEnglish || displayItem.dayEnglish}</span>
+                    )}
                 </div>
 
                 <div className="detail-body">
-                    {item.description && (
+                    {displayItem.description && (
                         <div className="story-block">
-                            <p className="drop-cap">{item.description}</p>
+                            <p className="drop-cap">{displayItem.description}</p>
                         </div>
                     )}
 
-                    {item.qeneThemes && (
+                    {displayItem.qeneThemes && (
                         <div className="qene-box">
                             <h3>ለቅኔ የሚያስነግረው</h3>
                             <div className="qene-list">
-                                {item.qeneThemes.map((theme, i) => {
-                                    // Check for Headers
-                                    if (theme.match(/^[🍂🌿🍄🌴🌹☘️]/)) {
-                                        return <h4 key={i} className="theme-sub-header">{theme}</h4>;
-                                    }
-                                    // Check for Conclusion/Footer
-                                    if (theme.includes("መልካም የቅኔ ቆጠራ") || theme.includes("በረከቱ ትደርብን") || theme.includes("አምላካችን መድኃኔ ዓለም") || theme.includes("ጥንተ ልደቱ")) {
-                                        return <div key={i} className="theme-footer">{theme}</div>;
-                                    }
-                                    // Check for Comparison text
-                                    if (theme.includes("ንጽጽር") || theme.includes("አንጻር")) {
-                                        return <h4 key={i} className="theme-sub-header">⚖️ {theme}</h4>;
-                                    }
-                                    // Default List Point
+                                {displayItem.qeneThemes.map((theme: string, i: number) => {
+                                    if (theme.match(/^[🍂🌿🍄🌴🌹☘️]/)) return <h4 key={i} className="theme-sub-header">{theme}</h4>;
+                                    if (theme.includes("መልካም") && theme.includes("ቆጠራ") || (theme.includes("በረከ") && (theme.includes("ትደር") || theme.includes("ተካፋዮች"))) || theme.includes("አምላካችን መድኃኔ ዓለም") || theme.includes("ጥንተ ልደቱ") || theme.includes("༺")) return <div key={i} className="theme-footer">{theme}</div>;
+                                    if (theme.includes("ንጽጽር") || theme.includes("አንጻር")) return <h4 key={i} className="theme-sub-header">⚖️ {theme}</h4>;
                                     const hasArrow = theme.trim().startsWith("➥") || theme.trim().startsWith("👉") || theme.trim().startsWith("➙") || theme.trim().startsWith("⚡️") || theme.trim().startsWith("🦋") || theme.trim().startsWith("➺");
                                     return <li key={i} className={hasArrow ? "no-bullet" : ""} style={hasArrow ? { listStyleType: 'none', paddingLeft: 0 } : {}}>{theme}</li>;
                                 })}
@@ -378,19 +426,101 @@ const DetailView = ({ item, onBack }) => {
                         </div>
                     )}
 
-                    {item.events && (
-                        <div className="events-list">
-                            <h3>በዚህ ዕለት የሚታሰቡ</h3>
-                            <ul>
-                                {item.events.map((ev, i) => <li key={i}>{ev}</li>)}
-                            </ul>
+                    {displayItem.additionalEvents && displayItem.additionalEvents.map((evt: any, idx: number) => (
+                        <div key={idx} style={{ marginTop: '3rem', borderTop: '2px dashed rgba(255,255,255,0.1)', paddingTop: '2rem' }}>
+                            <h2 style={{ color: '#ffd700', fontSize: '1.6rem', marginBottom: '1rem', textAlign: 'center' }}>{evt.title}</h2>
+                            {evt.description && (
+                                <div className="story-block">
+                                    <p className="drop-cap">{evt.description}</p>
+                                </div>
+                            )}
+                            {evt.qeneThemes && (
+                                <div className="qene-box">
+                                    <h3>ለቅኔ የሚያስነግረው</h3>
+                                    <div className="qene-list">
+                                        {evt.qeneThemes.map((theme: string, i: number) => {
+                                            if (theme.match(/^[🍂🌿🍄🌴🌹☘️]/)) return <h4 key={i} className="theme-sub-header">{theme}</h4>;
+                                            if (theme.includes("መልካም") && theme.includes("ቆጠራ") || (theme.includes("በረከ") && (theme.includes("ትደር") || theme.includes("ተካፋዮች"))) || theme.includes("አምላካችን መድኃኔ ዓለም") || theme.includes("ጥንተ ልደቱ") || theme.includes("༺")) return <div key={i} className="theme-footer">{theme}</div>;
+                                            if (theme.includes("ንጽጽር") || theme.includes("አንጻር")) return <h4 key={i} className="theme-sub-header">⚖️ {theme}</h4>;
+                                            const hasArrow = theme.trim().startsWith("➥") || theme.trim().startsWith("👉") || theme.trim().startsWith("➙") || theme.trim().startsWith("⚡️") || theme.trim().startsWith("🦋") || theme.trim().startsWith("➺");
+                                            return <li key={i} className={hasArrow ? "no-bullet" : ""} style={hasArrow ? { listStyleType: 'none', paddingLeft: 0 } : {}}>{theme}</li>;
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+
+                    {displayItem.links && (
+                        <div className="qene-box" style={{ marginTop: '2rem' }}>
+                            {displayItem.linksTitle && <h3>{displayItem.linksTitle}</h3>}
+                            <div className="qene-list">
+                                {displayItem.links.map((link: string, i: number) => {
+                                    const parts = link.split('~');
+                                    return (
+                                        <div
+                                            key={i}
+                                            className="link-row"
+                                            onClick={() => handleLinkClick(link, displayItem)}
+                                            style={{
+                                                padding: '0.8rem',
+                                                borderBottom: '1px solid rgba(255,255,255,0.1)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                cursor: 'pointer',
+                                                transition: 'background 0.2s'
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'}
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                                        >
+                                            <span style={{
+                                                fontWeight: 'bold',
+                                                color: 'var(--text-gold)',
+                                                marginRight: '1rem',
+                                                minWidth: '24px'
+                                            }}>{parts[0]}</span>
+                                            <span style={{
+                                                textDecoration: 'underline',
+                                                textUnderlineOffset: '4px',
+                                                fontSize: '1.1rem',
+                                                flex: 1
+                                            }}>{parts[1]}</span>
+                                            <ChevronRight size={16} opacity={0.6} />
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+                    {showEventList && (
+                        <div className="events-list-selection">
+                            <h3 style={{ borderBottom: '1px solid var(--border-gold)', paddingBottom: '0.5rem', marginBottom: '1rem', color: 'var(--text-gold)' }}>
+                                በዚህ ዕለት የሚከበሩ በዓላት
+                            </h3>
+                            <div className="list-stack">
+                                {item.events.map((ev: any, i: number) => (
+                                    <div
+                                        key={i}
+                                        className="list-card event-selector"
+                                        onClick={() => setActiveSelection(ev)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <div className="list-icon">✥</div>
+                                        <div className="list-info">
+                                            <h3>{ev.title || ev}</h3>
+                                            {ev.description && <span style={{ fontSize: '0.8rem', opacity: 0.7 }}>ዝርዝር ታሪክ አለው</span>}
+                                        </div>
+                                        <ChevronRight size={16} className="arrow" />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
                 </div>
             </div>
         </div>
     );
-
 };
 
 export default App;
