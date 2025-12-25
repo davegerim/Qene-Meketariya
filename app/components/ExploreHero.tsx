@@ -145,17 +145,30 @@ const ExploreHero = ({ onNavigate }: { onNavigate?: (tab: string) => void }) => 
                    Let's position "EXPLORE" to the right, overlapping the last two cards.
                    z-index: 20 (Cards are 30).
                */}
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 md:translate-x-12 z-20 pointer-events-none text-right hidden lg:block">
-                        {/* Glass Pane Background for Text */}
-                        <div className="absolute inset-0 -z-10 bg-white/5 backdrop-blur-[2px] rounded-full blur-3xl opacity-30 transform translate-x-12 scale-150"></div>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 pointer-events-none text-right hidden lg:flex flex-col items-end">
+                        {/* Reeded Glass Panel */}
+                        <div className="relative p-12 pr-16 rounded-[2rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-white/5 backdrop-blur-xl overflow-hidden group">
 
-                        <h1 className="text-[14rem] font-black text-[#D4AF37] leading-none tracking-tighter drop-shadow-2xl opacity-80 font-serif mix-blend-overlay"
-                            style={{ textShadow: '0 20px 50px rgba(0,0,0,0.8)' }}>
-                            TIBEB
-                        </h1>
-                        <p className="text-4xl font-bold text-amber-100 tracking-[0.6em] mr-8 mt-2 opacity-90 uppercase font-serif drop-shadow-lg">
-                            Of the Ancients
-                        </p>
+                            {/* Reeded Texture (Vertical Lines) */}
+                            <div className="absolute inset-0 z-0 opacity-30 mix-blend-overlay"
+                                style={{
+                                    backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0) 0px, rgba(255,255,255,0) 2px, rgba(255,255,255,0.1) 3px, rgba(255,255,255,0) 4px)'
+                                }}>
+                            </div>
+
+                            {/* Glossy Sheen */}
+                            <div className="absolute -inset-full top-0 block h-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-10 group-hover:animate-shine" />
+
+                            <div className="relative z-10">
+                                <h1 className="text-[10rem] xl:text-[12rem] font-black text-[#FFD700] leading-[0.85] tracking-tighter drop-shadow-2xl opacity-90 font-serif mix-blend-color-dodge"
+                                    style={{ textShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                                    TIBEB
+                                </h1>
+                                <p className="text-3xl font-bold text-amber-50 tracking-[0.4em] mt-4 opacity-90 uppercase font-serif drop-shadow-lg text-right pl-4 border-r-4 border-amber-500/50 pr-4">
+                                    Of the Ancients
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Mobile Text Fallback */}
