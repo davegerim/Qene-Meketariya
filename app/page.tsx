@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { BookOpen, Calendar, Sun, Moon, Search, ChevronRight, Home, Feather, Star } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { BookOpen, Calendar, Sun, Moon, Search, ChevronRight, Home, Feather, Star, Flower, Crown } from 'lucide-react';
 import { dailyMasnegeria, monthlyHolidays, annualHolidays, fasts, seasons, stMichaelMonthlyData, stMaryMonthlyData } from '../src/data';
 import ExploreHero from './components/ExploreHero';
 import Footer from './components/Footer';
@@ -23,12 +23,24 @@ function App() {
     const [activeTab, setActiveTab] = useState('home');
     const [selectedItem, setSelectedItem] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const mainContentRef = useRef<HTMLElement>(null);
+
+    const handleHeroNavigate = (tab: string) => {
+        setActiveTab(tab);
+        setSelectedItem(null);
+        setTimeout(() => {
+            mainContentRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    };
 
     // Search Logic
     const handleSearch = (query: string) => {
         setSearchQuery(query);
         if (query.trim()) {
             setActiveTab('search_results');
+            setTimeout(() => {
+                mainContentRef.current?.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
         } else {
             if (activeTab === 'search_results') setActiveTab('home');
         }
@@ -99,7 +111,7 @@ function App() {
 
     return (
         <div className="root-layout font-sans">
-            <ExploreHero />
+            <ExploreHero onNavigate={handleHeroNavigate} />
 
             <div className="app-container">
                 {/* Sidebar for Desktop / Header for Mobile */}
@@ -125,7 +137,7 @@ function App() {
                     </nav>
                 </header>
 
-                <main className="app-main">
+                <main className="app-main" ref={mainContentRef}>
                     {renderContent()}
                 </main>
 
@@ -272,7 +284,7 @@ const FastsList = ({ onSelect }: { onSelect: (item: any) => void }) => {
                 {standalone.filter(f => f.originalIndex < 6).map((fast, idx) => (
                     <div key={`s-${idx}`} className="fast-card" onClick={() => onSelect(fast)} style={{ cursor: 'pointer' }}>
                         <div className="fast-header">
-                            <div className="fast-icon">✞</div>
+                            <div className="fast-icon"><Flower className="w-6 h-6" /></div>
                             <h3>{fast.title}</h3>
                         </div>
                     </div>
@@ -282,7 +294,7 @@ const FastsList = ({ onSelect }: { onSelect: (item: any) => void }) => {
                 {Object.entries(grouped).map(([sectionName, items]) => (
                     <div key={sectionName} className="fast-section-group">
                         <div className="section-header">
-                            <div className="section-icon">🌿</div>
+                            <div className="section-icon"><Crown className="w-12 h-12 text-amber-500" /></div>
                             <h3>{sectionName}</h3>
                             <span className="section-badge">{items.length} ሳምንታት</span>
                         </div>
@@ -290,7 +302,7 @@ const FastsList = ({ onSelect }: { onSelect: (item: any) => void }) => {
                             {items.map((fast, idx) => (
                                 <div key={idx} className="fast-card child-card" onClick={() => onSelect(fast)} style={{ cursor: 'pointer' }}>
                                     <div className="fast-header">
-                                        <div className="fast-icon child-icon">✦</div>
+                                        <div className="fast-icon child-icon"><Star className="w-4 h-4" /></div>
                                         <h3>{fast.title}</h3>
                                     </div>
                                     {fast.titleEnglish && <span className="week-english">{fast.titleEnglish}</span>}
@@ -304,7 +316,7 @@ const FastsList = ({ onSelect }: { onSelect: (item: any) => void }) => {
                 {standalone.filter(f => f.originalIndex >= 6).map((fast, idx) => (
                     <div key={`e-${idx}`} className="fast-card" onClick={() => onSelect(fast)} style={{ cursor: 'pointer' }}>
                         <div className="fast-header">
-                            <div className="fast-icon">✞</div>
+                            <div className="fast-icon"><Flower className="w-6 h-6" /></div>
                             <h3>{fast.title}</h3>
                         </div>
                     </div>

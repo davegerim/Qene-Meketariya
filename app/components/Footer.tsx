@@ -1,5 +1,5 @@
 import React from 'react';
-import { Feather } from 'lucide-react';
+import { Feather, Linkedin, Send } from 'lucide-react';
 
 const Footer = () => {
     return (
@@ -9,46 +9,57 @@ const Footer = () => {
                 {/* Column 1: The Source (Mission) */}
                 <div className="flex flex-col items-center md:items-start space-y-4">
                     <div className="flex items-center gap-2">
-                        <Feather className="w-6 h-6 text-amber-500" />
-                        <h3 className="text-xl font-bold font-serif text-amber-400 tracking-wider">QENE</h3>
+                        <Feather className="w-10 h-10 text-amber-400" />
+                        <h3 className="text-3xl font-bold font-serif text-amber-500 tracking-wider drop-shadow-md">QENE</h3>
                     </div>
-                    <p className="text-sm leading-relaxed max-w-xs font-light">
+                    <p className="text-sm leading-relaxed max-w-xs font-light text-amber-50/90">
                         Preserving the sacred wisdom of the ancients for the generation of tomorrow.
-                        <span className="block mt-2 italic text-amber-500/60">"The ink of the scholar is holier than the blood of the martyr."</span>
+                        <span className="block mt-2 italic text-amber-400">"The ink of the scholar is holier than the blood of the martyr."</span>
                     </p>
                 </div>
 
                 {/* Column 2: The Connection (Community) */}
                 <div className="flex flex-col items-center space-y-6">
-                    <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-amber-500/70 border-b border-amber-500/20 pb-2">Community Circles</h4>
+                    <h4 className="text-lg font-bold uppercase tracking-[0.2em] text-amber-500 border-b border-amber-400/50 pb-2 shadow-sm">Community Circles</h4>
                     <div className="flex gap-6">
-                        <a href="#" className="group relative p-3 rounded-full bg-white/5 hover:bg-amber-500/20 transition-all duration-300 border border-white/10 hover:border-amber-500/50">
+                        <a href="https://t.me/D4vv4" target="_blank" rel="noopener noreferrer" className="group relative p-3 rounded-full bg-white/5 hover:bg-amber-500/20 transition-all duration-300 border border-white/10 hover:border-amber-500/50">
                             <span className="sr-only">Telegram</span>
-                            <svg className="w-5 h-5 fill-current text-slate-300 group-hover:text-amber-400" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.62 0zm4.91 5.62a3 3 0 0 1 .84.18l-8.12 11.8a2.98 2.98 0 0 1-.84-.18l-2.8-5.6a2.98 2.98 0 0 1 .42-3.8l9.6-3.8a2.98 2.98 0 0 1 .9.18z" /></svg>
+                            <Send className="w-5 h-5 text-slate-300 group-hover:text-amber-400 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
                         </a>
-                        <a href="#" className="group relative p-3 rounded-full bg-white/5 hover:bg-amber-500/20 transition-all duration-300 border border-white/10 hover:border-amber-500/50">
-                            <span className="sr-only">YouTube</span>
-                            <svg className="w-5 h-5 fill-current text-slate-300 group-hover:text-amber-400" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>
+                        <a href="https://www.linkedin.com/in/dawit-gerim-6086b3211/" target="_blank" rel="noopener noreferrer" className="group relative p-3 rounded-full bg-white/5 hover:bg-amber-500/20 transition-all duration-300 border border-white/10 hover:border-amber-500/50">
+                            <span className="sr-only">LinkedIn</span>
+                            <Linkedin className="w-5 h-5 text-slate-300 group-hover:text-amber-400" />
                         </a>
                     </div>
                 </div>
 
                 {/* Column 3: The Credits (Service w/ Ge'ez Date) */}
                 <div className="flex flex-col items-center md:items-end space-y-4">
-                    <span className="text-xs font-bold tracking-widest text-slate-500 uppercase">Established</span>
-                    <span className="text-2xl font-serif text-amber-100">2017 E.C.</span>
+                    <span className="text-xs font-bold tracking-widest text-slate-400 uppercase">Established</span>
+                    <span className="text-2xl font-serif text-amber-100">2018 E.C.</span>
                     <div className="text-xs text-slate-500 flex flex-col items-center md:items-end">
-                        <span>Addis Ababa, Ethiopia</span>
-                        <span className="opacity-50 mt-1">© 2024 Qene Masenegeriya</span>
+                        <span className="text-slate-400">Addis Ababa, Ethiopia</span>
+                        <span className="opacity-50 mt-1">© 2025 Qene Masenegeriya</span>
+
+                        <div className="mt-4 flex flex-col items-center md:items-end gap-1 border-t border-white/5 pt-2 w-full md:w-auto">
+                            <span className="text-[10px] uppercase tracking-wider opacity-40">Developed by</span>
+                            <a href="mailto:davegerim@gmail.com" className="hover:text-amber-400 transition-colors">davegerim@gmail.com</a>
+                            <a href="tel:0985392862" className="hover:text-amber-400 transition-colors">0985392862</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Bottom Bar: The Daily Verse */}
             <div className="mt-12 border-t border-white/5 pt-6 text-center">
-                <p className="text-xs md:text-sm font-serif italic text-amber-500/60 max-w-2xl mx-auto px-6">
-                    "He who learns, teaches. He who teaches, learns." — <span className="text-amber-500">Ethiopian Proverb</span>
-                </p>
+                <div className="flex flex-col gap-2 max-w-2xl mx-auto px-6">
+                    <p className="text-sm md:text-base font-serif text-amber-200/80">
+                        "ያልተማረ ይማር፣ የተማረ ያስተምር።"
+                    </p>
+                    <p className="text-xs md:text-sm font-serif italic text-amber-500/60">
+                        "He who learns, teaches. He who teaches, learns." — <span className="text-amber-500">Ethiopian Proverb</span>
+                    </p>
+                </div>
             </div>
         </footer>
     );

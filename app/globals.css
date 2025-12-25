@@ -880,32 +880,40 @@ a {
   /* Changed from center */
   justify-content: flex-start;
   padding: 1.5rem;
-  background: var(--color-text-primary);
-  border-radius: 8px;
+  background: #fff;
+  border-radius: 12px;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  transition: transform 0.3s;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: auto;
   /* Allow growth */
-  min-height: 120px;
+  min-height: 100px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .fast-card:hover {
   border-color: var(--color-primary-gold);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(212, 175, 55, 0.15);
 }
 
 .fast-icon {
-  font-size: 2rem;
-  color: var(--color-accent-red);
-  background: rgba(0, 0, 0, 0.2);
-  width: 50px;
-  height: 50px;
+  font-size: 1.5rem;
+  color: var(--color-primary-gold);
+  background: rgba(212, 175, 55, 0.1);
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.fast-card:hover .fast-icon {
+  background: var(--color-primary-gold);
+  color: #fff;
 }
 
 .fast-header {
@@ -914,29 +922,32 @@ a {
   gap: 1rem;
   width: 100%;
   margin-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+  padding-bottom: 0.8rem;
 }
 
 .fast-card h3 {
-  font-size: 1rem;
-  /* Slightly smaller to fit long titles */
+  font-size: 1.1rem;
+  font-weight: 700;
   margin: 0;
-  color: #F2E8CF;
+  color: var(--color-text-primary);
   text-align: left;
+  font-family: var(--font-serif);
 }
 
 /* === GROUPED SECTION STYLES (Ultra Premium) === */
 .fast-section-group {
   grid-column: 1 / -1;
-  background: linear-gradient(160deg, #2c1810 0%, #1a0b08 100%);
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  border-radius: 20px;
-  padding: 2rem;
-  margin: 2rem 0;
+  background: linear-gradient(135deg, #FFFCF5 0%, #FDFBF7 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 24px;
+  padding: 2.5rem;
+  margin: 2.5rem 0;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(139, 69, 19, 0.2);
+  box-shadow:
+    0 10px 40px -10px rgba(212, 175, 55, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
 }
 
 /* Decorative corner accents */
@@ -979,14 +990,14 @@ a {
 
 .section-icon {
   font-size: 3rem;
-  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+  filter: drop-shadow(0 4px 6px rgba(212, 175, 55, 0.2));
   margin-bottom: 0.5rem;
   animation: float 3s ease-in-out infinite;
 }
 
 .section-header h3 {
-  font-size: 1.8rem;
-  background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+  font-size: 2rem;
+  background: linear-gradient(135deg, #B8860B 0%, #D4AF37 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -999,9 +1010,9 @@ a {
 }
 
 .section-badge {
-  background: rgba(139, 0, 0, 0.6);
-  border: 1px solid rgba(255, 69, 58, 0.4);
-  color: #ffcccc;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #8B4513;
   padding: 0.4rem 1.2rem;
   border-radius: 50px;
   font-size: 0.85rem;
@@ -1022,10 +1033,10 @@ a {
 
 .child-card {
   min-height: auto !important;
-  padding: 1.2rem 1rem !important;
-  background: linear-gradient(145deg, rgba(40, 40, 40, 0.4), rgba(20, 20, 20, 0.6)) !important;
-  border: 1px solid rgba(212, 175, 55, 0.2) !important;
-  border-radius: 12px !important;
+  padding: 1.5rem 1rem !important;
+  background: #fff !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  border-radius: 16px !important;
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
@@ -1051,10 +1062,10 @@ a {
 }
 
 .child-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  background: linear-gradient(145deg, rgba(60, 50, 40, 0.5), rgba(30, 25, 20, 0.7)) !important;
+  transform: translateY(-5px) !important;
+  background: #FFFBF0 !important;
   border-color: rgba(212, 175, 55, 0.6) !important;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.1);
+  box-shadow: 0 10px 20px rgba(212, 175, 55, 0.15) !important;
 }
 
 .child-card .fast-header {
@@ -1067,23 +1078,25 @@ a {
 
 .child-card h3 {
   font-size: 1rem !important;
-  color: #FFE5B4 !important;
-  font-weight: 600;
+  color: #5D4037 !important;
+  font-weight: 700;
 }
 
 .child-icon {
   width: 36px !important;
   height: 36px !important;
   font-size: 1.2rem !important;
-  background: linear-gradient(135deg, #DAA520, #8B4513) !important;
-  color: #fff !important;
+  font-size: 1.2rem !important;
+  background: linear-gradient(135deg, #F3E5AB, #FFF) !important;
+  color: #B8860B !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   margin-bottom: 0.5rem;
 }
 
 .week-english {
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  color: #8D6E63;
   font-style: normal;
   text-transform: uppercase;
   letter-spacing: 0.5px;

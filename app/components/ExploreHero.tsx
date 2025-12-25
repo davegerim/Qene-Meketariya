@@ -1,8 +1,25 @@
 import React from 'react';
-import { Globe, Menu, Mountain, Tent, TreePine, Sun, Umbrella, Feather, Sparkles, Cloud } from 'lucide-react';
+import { Globe, Menu, Sparkles, Cloud, Scroll, Moon, Crown, Flower, TreePine, Sun, Feather, X, ChevronRight, Home } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-const ExploreHero = () => {
+const ExploreHero = ({ onNavigate }: { onNavigate?: (tab: string) => void }) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    // Lock body scroll when menu is open
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => { document.body.style.overflow = 'unset'; };
+    }, [isMenuOpen]);
+
+    const handleNavClick = (tab: string) => {
+        setIsMenuOpen(false);
+        onNavigate?.(tab);
+    };
     return (
         <div className="w-full relative font-sans text-slate-800">
             {/* Hero Section */}
@@ -15,16 +32,80 @@ const ExploreHero = () => {
                     <div className="flex items-center gap-1 text-2xl font-bold tracking-tight font-serif">
                         <span className="text-amber-400">ቅኔ</span> <span className="opacity-90">መቁጠሪያ</span>
                     </div>
-                    <div className="hidden md:flex items-center gap-8 font-medium">
-                        <a href="#" className="hover:text-amber-400 transition">መነሻ</a>
-                        <a href="#" className="hover:text-amber-400 transition">የዕለት</a>
-                        <a href="#" className="hover:text-amber-400 transition">ወርኃዊ</a>
-                        <a href="#" className="hover:text-amber-400 transition">መግቢያ</a>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <Menu className="w-8 h-8 cursor-pointer hover:text-amber-400" />
+
+                    <div className="flex items-center gap-4 z-[101]">
+                        <div className="p-1 rounded-full bg-white/5 backdrop-blur-md border border-white/10 shadow-lg group">
+                            <button
+                                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                className="p-3 rounded-full hover:bg-white/10 transition-all duration-300 relative group-hover:scale-105"
+                            >
+                                <Menu className="w-6 h-6 text-amber-100/80 group-hover:text-amber-400 transition-colors" />
+                            </button>
+                        </div>
                     </div>
                 </nav>
+
+                {/* Menu Overlay & Drawer */}
+                <div
+                    className={`fixed inset-0 z-[100] transition-all duration-500 ${isMenuOpen ? 'visible pointer-events-auto' : 'invisible pointer-events-none'}`}
+                >
+                    {/* Backdrop with Blur */}
+                    <div
+                        className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-500 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+                        onClick={() => setIsMenuOpen(false)}
+                    />
+
+                    {/* Sliding Drawer */}
+                    <div
+                        className={`absolute right-0 top-0 h-full w-full md:w-[500px] bg-[#0f0b0a] border-l border-amber-500/20 shadow-[0_0_50px_rgba(0,0,0,0.8)] transform transition-transform duration-700 cubic-bezier(0.22, 1, 0.36, 1) ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                    >
+                        {/* Decorative Background Elements */}
+                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                            <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                            <div className="absolute bottom-0 left-0 w-full h-full opacity-[0.03] bg-[url('/card-daily.png')] bg-cover bg-no-repeat grayscale mix-blend-overlay"></div>
+                            {/* Vertical Line */}
+                            <div className="absolute top-0 bottom-0 left-12 w-[1px] bg-gradient-to-b from-transparent via-amber-500/20 to-transparent"></div>
+                        </div>
+
+                        {/* Content Container */}
+                        <div className="relative h-full flex flex-col pt-32 px-12 z-10">
+                            {/* Close Button position */}
+                            <button
+                                onClick={() => setIsMenuOpen(false)}
+                                className="absolute top-8 right-8 p-3 rounded-full text-amber-500/80 hover:bg-white/5 hover:text-amber-400 transition-all duration-300"
+                            >
+                                <X size={32} strokeWidth={1.5} />
+                            </button>
+
+                            {/* Header */}
+                            <div className="mb-16 pl-8 relative">
+                                <span className="absolute -left-[5px] top-2 w-3 h-3 bg-amber-500 rounded-full shadow-[0_0_10px_rgba(212,175,55,0.8)]"></span>
+                                <h2 className="text-5xl font-serif text-amber-50 font-bold tracking-tight mb-2">ማውጫ</h2>
+                                <p className="text-amber-500/60 font-serif italic tracking-widest text-sm uppercase">Quick Navigation</p>
+                            </div>
+
+                            {/* Navigation Links */}
+                            <nav className="flex flex-col gap-8">
+                                <MenuLink label="መነሻ" subLabel="Home" onClick={() => handleNavClick('home')} delay="100ms" isActive={false} />
+                                <MenuLink label="የዕለት ማስነገሪያዎች" subLabel="Daily Qene" onClick={() => handleNavClick('daily')} delay="150ms" isActive={false} />
+                                <MenuLink label="ወርኃዊ በዓላት" subLabel="Monthly Feasts" onClick={() => handleNavClick('monthly')} delay="200ms" isActive={false} />
+                                <MenuLink label="ዓመታዊ በዓላት" subLabel="Annual Feasts" onClick={() => handleNavClick('annual')} delay="250ms" isActive={false} />
+                                <MenuLink label="አጽዋማት" subLabel="Fasts" onClick={() => handleNavClick('fasts')} delay="300ms" isActive={false} />
+                            </nav>
+
+                            {/* Footer in Menu */}
+                            <div className="mt-auto mb-12 pl-8 border-t border-white/5 pt-8">
+                                <div className="flex items-center gap-3 opacity-50 mb-4">
+                                    <Feather size={16} />
+                                    <span className="text-xs tracking-widest uppercase">Qene Masenegeriya</span>
+                                </div>
+                                <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
+                                    "Wisdom builds her house, she has hewn out her seven pillars."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Main Hero Content */}
                 <div className="relative z-10 max-w-7xl mx-auto px-4 pt-12 pb-32 flex flex-col md:flex-row items-center justify-between min-h-[600px]">
@@ -65,11 +146,14 @@ const ExploreHero = () => {
                    z-index: 20 (Cards are 30).
                */}
                     <div className="absolute right-0 top-1/2 -translate-y-1/2 md:translate-x-12 z-20 pointer-events-none text-right hidden lg:block">
-                        <h1 className="text-[14rem] font-black text-[#D4AF37] leading-none tracking-tighter drop-shadow-2xl opacity-80 font-serif"
+                        {/* Glass Pane Background for Text */}
+                        <div className="absolute inset-0 -z-10 bg-white/5 backdrop-blur-[2px] rounded-full blur-3xl opacity-30 transform translate-x-12 scale-150"></div>
+
+                        <h1 className="text-[14rem] font-black text-[#D4AF37] leading-none tracking-tighter drop-shadow-2xl opacity-80 font-serif mix-blend-overlay"
                             style={{ textShadow: '0 20px 50px rgba(0,0,0,0.8)' }}>
                             TIBEB
                         </h1>
-                        <p className="text-4xl font-bold text-amber-100 tracking-[0.6em] mr-8 mt-2 opacity-90 uppercase font-serif">
+                        <p className="text-4xl font-bold text-amber-100 tracking-[0.6em] mr-8 mt-2 opacity-90 uppercase font-serif drop-shadow-lg">
                             Of the Ancients
                         </p>
                     </div>
@@ -85,11 +169,31 @@ const ExploreHero = () => {
 
             {/* Category Filter Bar */}
             <div className="relative z-40 -mt-10 flex justify-center px-4 mb-8">
-                <div className="flex flex-wrap justify-center gap-4 bg-transparent p-2">
-                    <CategoryPill icon={<Sun className="w-5 h-5 text-amber-600" />} label="የዕለት (Daily)" />
-                    <CategoryPill icon={<Umbrella className="w-5 h-5 text-blue-600" />} label="ወርኃዊ (Monthly)" />
-                    <CategoryPill icon={<Tent className="w-5 h-5 text-green-600" />} label="ዓመታዊ (Annual)" />
-                    <CategoryPill icon={<Mountain className="w-5 h-5 text-red-600" />} label="አጽዋማት (Fasts)" />
+                <div className="flex flex-wrap justify-center gap-6 bg-transparent p-4">
+                    <CategoryPill
+                        icon={<Scroll className="w-6 h-6 text-amber-700" />}
+                        label="የዕለት ማስነገሪያዎች"
+                        subLabel="Daily Qene"
+                        onClick={() => onNavigate?.('daily')}
+                    />
+                    <CategoryPill
+                        icon={<Moon className="w-6 h-6 text-indigo-900" />}
+                        label="ወርኃዊ በዓላት"
+                        subLabel="Monthly"
+                        onClick={() => onNavigate?.('monthly')}
+                    />
+                    <CategoryPill
+                        icon={<Crown className="w-6 h-6 text-amber-600" />}
+                        label="ዓመታዊ በዓላት"
+                        subLabel="Annual Feasts"
+                        onClick={() => onNavigate?.('annual')}
+                    />
+                    <CategoryPill
+                        icon={<Flower className="w-6 h-6 text-emerald-700" />}
+                        label="አጽዋማት"
+                        subLabel="Fasts"
+                        onClick={() => onNavigate?.('fasts')}
+                    />
                 </div>
             </div>
             {/* Wisdom / Verse Section - "Sem Ena Werq" Style */}
@@ -155,12 +259,18 @@ const ExploreHero = () => {
 };
 
 
-const CategoryPill = ({ icon, label }: { icon: any, label: string }) => (
-    <button className="flex items-center gap-3 bg-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border border-slate-100 min-w-[150px] group">
-        <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center shrink-0 group-hover:bg-cyan-50 transition">
+const CategoryPill = ({ icon, label, subLabel, onClick }: { icon: any, label: string, subLabel?: string, onClick?: () => void }) => (
+    <button onClick={onClick} className="relative overflow-hidden flex items-center gap-4 bg-[#fdfbf7] px-8 py-4 rounded-xl shadow-md cursor-pointer group transition-all duration-300 border border-amber-900/10 hover:border-amber-500/50 hover:shadow-xl hover:-translate-y-1 min-w-[200px]">
+        {/* Hover Highlight */}
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/30 to-amber-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 pointer-events-none"></div>
+
+        <div className="w-12 h-12 rounded-full bg-white border border-amber-100 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 group-hover:border-amber-300 transition-all duration-300">
             {icon}
         </div>
-        <span className="font-bold text-slate-700 group-hover:text-cyan-900">{label}</span>
+        <div className="flex flex-col items-start">
+            <span className="font-bold text-[#2c1a1d] text-lg leading-tight group-hover:text-amber-800 transition-colors font-serif">{label}</span>
+            {subLabel && <span className="text-xs text-slate-500 uppercase tracking-wider font-sans group-hover:text-amber-700/70">{subLabel}</span>}
+        </div>
     </button>
 );
 
@@ -190,6 +300,28 @@ const WisdomCard = ({ day, title, desc, icon }: { day: string, title: string, de
         {/* Hover Glow Effect */}
         <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/0 via-amber-400/5 to-amber-500/0 opacity-0 group-hover:opacity-100 transition duration-700 blur-2xl"></div>
     </div>
+);
+
+const MenuLink = ({ label, subLabel, onClick, delay, isActive }: { label: string, subLabel: string, onClick: () => void, delay: string, isActive?: boolean }) => (
+    <button
+        onClick={onClick}
+        className="group relative flex items-center w-full pl-8 animate-slide-up"
+        style={{ animationDelay: delay, animationFillMode: 'both' }}
+    >
+        {/* Hover Indicator Dot */}
+        <span className="absolute left-[3px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-amber-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_8px_rgba(212,175,55,0.8)]"></span>
+
+        <div className="flex flex-col items-start gap-1 transition-transform duration-300 group-hover:translate-x-4">
+            <span
+                className={`text-2xl md:text-3xl font-serif font-medium transition-colors duration-300 ${isActive ? 'text-amber-400' : 'text-slate-300 group-hover:text-amber-100'}`}
+            >
+                {label}
+            </span>
+            <span className="text-xs text-amber-500/50 uppercase tracking-[0.15em] font-sans group-hover:text-amber-500 transition-colors">
+                {subLabel}
+            </span>
+        </div>
+    </button>
 );
 
 export default ExploreHero;
