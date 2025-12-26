@@ -190,19 +190,19 @@ const HomeDashboard = ({ onNavigate, onSelect }) => {
             </section>
 
             <div className="bento-grid">
-                <div className="bento-item card-gold-img" style={{ backgroundImage: "linear-gradient(rgba(44, 26, 29, 0.4), rgba(44, 26, 29, 0.6)), url('/card-daily.png')" }} onClick={() => onNavigate('daily')}>
+                <div className="bento-item card-gold-img" style={{ backgroundImage: "linear-gradient(rgba(44, 26, 29, 0.4), rgba(44, 26, 29, 0.6)), url('/አባ-ጊዮርጊስ4.png')" }} onClick={() => onNavigate('daily')}>
                     <Sun size={40} />
                     <span>የዕለት ማስነገሪያ</span>
                 </div>
-                <div className="bento-item card-dark-img" style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('/card-monthly.png')" }} onClick={() => onNavigate('monthly')}>
+                <div className="bento-item card-dark-img" style={{ backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('/siile-kidus-mikael-fp2.png')" }} onClick={() => onNavigate('monthly')}>
                     <Moon size={40} />
                     <span>ወርኃ በዓላት</span>
                 </div>
-                <div className="bento-item card-parchment-img" style={{ backgroundImage: "linear-gradient(rgba(242, 232, 207, 0.4), rgba(44, 26, 29, 0.6)), url('/card-annual.png')" }} onClick={() => onNavigate('annual')}>
+                <div className="bento-item card-parchment-img" style={{ backgroundImage: "linear-gradient(rgba(242, 232, 207, 0.4), rgba(44, 26, 29, 0.6)), url('/ሥሉስ-ቅዱስfinished.png')" }} onClick={() => onNavigate('annual')}>
                     <Calendar size={40} />
                     <span>ዓመታዊ በዓላት</span>
                 </div>
-                <div className="bento-item card-red-img" style={{ backgroundImage: "linear-gradient(rgba(139, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url('/card-fasts.png')" }} onClick={() => onNavigate('fasts')}>
+                <div className="bento-item card-red-img" style={{ backgroundImage: "linear-gradient(rgba(139, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url('/aba-samuel-zewaldba-large.png')" }} onClick={() => onNavigate('fasts')}>
                     <BookOpen size={40} />
                     <span>አጽዋማት</span>
                 </div>

@@ -20,6 +20,7 @@ const ExploreHero = ({ onNavigate }: { onNavigate?: (tab: string) => void }) => 
         setIsMenuOpen(false);
         onNavigate?.(tab);
     };
+
     return (
         <div className="w-full relative font-sans text-slate-800">
             {/* Hero Section */}
@@ -57,7 +58,12 @@ const ExploreHero = ({ onNavigate }: { onNavigate?: (tab: string) => void }) => 
 
                     {/* Sliding Drawer */}
                     <div
-                        className={`absolute right-0 top-0 h-full w-full md:w-[500px] bg-[#0f0b0a] border-l border-amber-500/20 shadow-[0_0_50px_rgba(0,0,0,0.8)] transform transition-transform duration-700 cubic-bezier(0.22, 1, 0.36, 1) ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                        className={`absolute right-0 top-0 h-full w-full md:w-[500px] border-l border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] transform transition-transform duration-700 cubic-bezier(0.22, 1, 0.36, 1) ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                        style={{
+                            backgroundImage: "linear-gradient(to right, rgba(15, 11, 10, 0.95), rgba(15, 11, 10, 0.8)), url('/daily-art-new.jpg')",
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center'
+                        }}
                     >
                         {/* Decorative Background Elements */}
                         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -110,63 +116,75 @@ const ExploreHero = ({ onNavigate }: { onNavigate?: (tab: string) => void }) => 
                 {/* Main Hero Content */}
                 <div className="relative z-10 max-w-7xl mx-auto px-4 pt-12 pb-32 flex flex-col md:flex-row items-center justify-between min-h-[600px]">
 
-                    {/* Cards Container (Left/Center) */}
-                    <div className="relative flex gap-4 md:gap-6 items-center justify-center w-full md:w-2/3 [perspective:1000px] pl-4 md:pl-0">
+                    {/* Cards Container (Left/Center) - 3D Gallery Style */}
+                    <div className="relative flex gap-4 md:gap-8 items-center justify-center w-full md:w-1/2 [perspective:1200px] z-30 mr-auto pl-4 lg:pl-16">
 
-                        {/* Card 1 - Yared (Music/Saint) */}
-                        <div className="relative w-32 h-56 md:w-48 md:h-72 rounded-xl overflow-hidden shadow-2xl transform translate-y-12 transition hover:-translate-y-2 duration-500 z-30 ring-1 ring-amber-500/20 border border-amber-900/30">
-                            <Image src="/card-daily.png" alt="Daily" fill className="object-cover" />
-                        </div>
+                        {/* Interactive floating cards with Laminated Glass Effect */}
+                        {[
+                            { src: '/angel-embrace.png', alt: 'Daily', y: 'translate-y-12', delay: '0ms' },
+                            { src: '/mary-pointing-new.png', alt: 'Monthly', y: '-translate-y-8', delay: '100ms' },
+                            { src: '/abune-samuel-priest.png', alt: 'Annual', y: 'translate-y-4', delay: '200ms' },
+                            { src: '/virgin-mary-manna.png', alt: 'Fasts', y: '-translate-y-12', delay: '300ms' }
+                        ].map((card, idx) => (
+                            <div key={idx}
+                                className={`relative w-28 h-48 md:w-40 md:h-64 lg:w-48 lg:h-80 rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform ${card.y} transition-all duration-700 hover:scale-110 hover:z-50 hover:shadow-amber-500/30 group border border-white/5`}
+                                style={{ transitionDelay: card.delay }}
+                            >
+                                {/* Image */}
+                                <Image src={card.src} alt={card.alt} fill className="object-cover object-top" />
 
-                        {/* Card 2 - Manuscript */}
-                        <div className="relative w-32 h-56 md:w-48 md:h-72 rounded-xl overflow-hidden shadow-2xl transform -translate-y-8 transition hover:-translate-y-12 duration-500 z-30 ring-1 ring-amber-500/20 border border-amber-900/30">
-                            <Image src="/card-monthly.png" alt="Monthly" fill className="object-cover" />
-                        </div>
-
-                        {/* Card 3 - Lalibela (Architecture) */}
-                        <div className="relative w-32 h-56 md:w-48 md:h-72 rounded-xl overflow-hidden shadow-2xl transform translate-y-4 transition hover:-translate-y-4 duration-500 z-30 ring-1 ring-amber-500/20 border border-amber-900/30">
-                            <Image src="/card-annual.png" alt="Annual" fill className="object-cover" />
-                        </div>
-
-                        {/* Card 4 - Cross (Faith) */}
-                        <div className="relative w-32 h-56 md:w-48 md:h-72 rounded-xl overflow-hidden shadow-2xl transform -translate-y-12 transition hover:-translate-y-16 duration-500 z-30 ring-1 ring-amber-500/20 border border-amber-900/30">
-                            <Image src="/card-fasts.png" alt="Fasts" fill className="object-cover" />
-                        </div>
+                                {/* Laminated Gloss Effect (Different from Reeded) */}
+                                <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-50 pointer-events-none mix-blend-overlay"></div>
+                                <div className="absolute -inset-full top-0 block h-full w-full skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine" />
+                            </div>
+                        ))}
                     </div>
 
-                    {/* Typography (Right/Background) with Layering */}
-                    {/* 
-                   Crucial: "The text 'EXPLORE' should be positioned behind the 3rd and 4th image cards"
-                   We achieve this by making this container overlap the cards container, or by positioning it absolutely relative to the main container.
-                   To make it sit *behind* specific cards but *visible* elsewhere requires z-index shuffling.
-                   
-                   Actually, if "EXPLORE" is behind 3rd and 4th, it effectively means it's behind the whole card row if they overlap.
-                   But if the text is on the RIGHT, and the cards are on the LEFT/CENTER.
-                   Let's position "EXPLORE" to the right, overlapping the last two cards.
-                   z-index: 20 (Cards are 30).
-               */}
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 pointer-events-none text-right hidden lg:flex flex-col items-end">
-                        {/* Reeded Glass Panel */}
-                        <div className="relative p-12 pr-16 rounded-[2rem] border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-white/5 backdrop-blur-xl overflow-hidden group">
+                    {/* THE GLASS CURTAIN (Massive Right Section) */}
+                    <div className="absolute top-0 right-0 bottom-0 w-full md:w-[55%] z-20 overflow-hidden pointer-events-none lg:pointer-events-auto flex items-center justify-end">
 
-                            {/* Reeded Texture (Vertical Lines) */}
-                            <div className="absolute inset-0 z-0 opacity-30 mix-blend-overlay"
+                        {/* The Reeded Glass Monolith */}
+                        <div className="relative w-full h-full bg-[#1a120b]/30 backdrop-blur-xl border-l border-white/10 shadow-[-20px_0_100px_rgba(0,0,0,0.5)] overflow-hidden">
+
+                            {/* Texture: Macro Reeded Glass (Large Flutes) */}
+                            <div className="absolute inset-0 z-0 opacity-10 mix-blend-overlay"
                                 style={{
-                                    backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0) 0px, rgba(255,255,255,0) 2px, rgba(255,255,255,0.1) 3px, rgba(255,255,255,0) 4px)'
+                                    backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0) 0px, rgba(255,255,255,0) 10px, rgba(255,255,255,0.8) 12px, rgba(0,0,0,0.5) 14px, rgba(255,255,255,0) 24px)'
                                 }}>
                             </div>
 
-                            {/* Glossy Sheen */}
-                            <div className="absolute -inset-full top-0 block h-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-10 group-hover:animate-shine" />
+                            {/* Additional Noise for texture */}
+                            <div className="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat"></div>
 
-                            <div className="relative z-10">
-                                <h1 className="text-[10rem] xl:text-[12rem] font-black text-[#FFD700] leading-[0.85] tracking-tighter drop-shadow-2xl opacity-90 font-serif mix-blend-color-dodge"
-                                    style={{ textShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
-                                    TIBEB
-                                </h1>
-                                <p className="text-3xl font-bold text-amber-50 tracking-[0.4em] mt-4 opacity-90 uppercase font-serif drop-shadow-lg text-right pl-4 border-r-4 border-amber-500/50 pr-4">
-                                    Of the Ancients
-                                </p>
+                            {/* Glass Reflections */}
+                            <div className="absolute top-0 right-0 w-full h-[300px] bg-gradient-to-b from-white/5 to-transparent skew-y-12 opacity-50"></div>
+                            <div className="absolute bottom-0 left-0 w-full h-[300px] bg-gradient-to-t from-amber-500/5 to-transparent -skew-y-12 opacity-30"></div>
+
+                            {/* TYPOGRAPHY CONTENT INSIDE THE GLASS */}
+                            <div className="absolute inset-0 flex flex-col items-end justify-center pr-8 md:pr-16 lg:pr-24">
+                                <div className="relative">
+                                    {/* Glowing Backlight for Text Visibility */}
+                                    <div className="absolute -inset-10 bg-amber-500/10 blur-[100px] rounded-full"></div>
+
+                                    <h1 className="relative text-[6rem] md:text-[8rem] lg:text-[12rem] font-black text-[#FFD700] leading-[0.85] tracking-tighter drop-shadow-2xl font-serif text-right mix-blend-hard-light opacity-90">
+                                        TIBEB
+                                    </h1>
+                                    <div className="flex items-center justify-end gap-6 md:gap-12 mt-4 md:mt-8 translate-x-4">
+                                        <div className="h-[2px] w-12 md:w-32 bg-gradient-to-l from-amber-400 to-transparent"></div>
+                                        <p className="text-xl md:text-3xl lg:text-4xl font-bold text-amber-50 tracking-[0.3em] uppercase font-serif drop-shadow-lg text-right">
+                                            Of the Ancients
+                                        </p>
+                                    </div>
+
+                                    {/* Amharic Tagline */}
+                                    <p className="text-right text-amber-400/90 mt-6 font-serif text-2xl md:text-3xl tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                                        ሊካውንተ ኢትዮጵያዊያን  ቅኔ
+                                    </p>
+
+                                    <p className="hidden md:block text-right text-amber-200/60 mt-4 max-w-md ml-auto font-light text-lg leading-relaxed">
+                                        Explore the profound wisdom, sacred arts, and timeless heritage of Ethiopia through a digital lens.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
