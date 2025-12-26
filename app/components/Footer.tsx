@@ -10,7 +10,7 @@ const Footer = () => {
                 <div className="flex flex-col items-center md:items-start space-y-4">
                     <div className="flex items-center gap-2">
                         <Feather className="w-10 h-10 text-amber-400" />
-                        <h3 className="text-3xl font-bold font-serif text-amber-400 tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">QENE</h3>
+                        <h3 className="text-3xl font-black font-serif tracking-wider" style={{ color: 'rgba(253, 230, 138, 0.8)' }}>QENE</h3>
                     </div>
                     <p className="text-sm leading-relaxed max-w-xs font-light text-amber-50/90">
                         Preserving the sacred wisdom of the ancients for the generation of tomorrow.
@@ -20,7 +20,7 @@ const Footer = () => {
 
                 {/* Column 2: The Connection (Community) */}
                 <div className="flex flex-col items-center space-y-6">
-                    <h4 className="text-lg font-bold uppercase tracking-[0.2em] text-amber-400 border-b border-amber-400/50 pb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Community Circles</h4>
+                    <h4 className="text-lg font-bold uppercase tracking-[0.2em] border-b pb-2" style={{ color: 'rgba(253, 230, 138, 0.8)', borderColor: 'rgba(253, 230, 138, 0.4)' }}>Community Circles</h4>
                     <div className="flex gap-6">
                         <a href="https://t.me/D4vv4" target="_blank" rel="noopener noreferrer" className="group relative p-3 rounded-full bg-white/5 hover:bg-amber-500/20 transition-all duration-300 border border-white/10 hover:border-amber-500/50">
                             <span className="sr-only">Telegram</span>
