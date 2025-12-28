@@ -239,7 +239,7 @@ const ExploreHero = ({ onNavigate }: { onNavigate?: (tab: string) => void }) => 
                 </div>
 
                 {/* Horizontal Scroll Track - Simple overflow scroll */}
-                <div className="flex gap-8 overflow-x-auto pb-4 px-4 md:px-12 items-center hide-scrollbar">
+                <div className="flex gap-8 overflow-x-auto pb-4 px-4 md:px-12 items-center thin-scrollbar">
                     <WisdomCard
                         day="እሁድ"
                         title="የሰንበት ክብር (Creation)"

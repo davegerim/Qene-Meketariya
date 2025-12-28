@@ -163,7 +163,7 @@ const NavItem = ({ icon, label, isActive, onClick }: { icon: any, label: string,
 );
 
 
-const HomeDashboard = ({ onNavigate, onSelect }) => {
+const HomeDashboard = ({ onNavigate, onSelect }: { onNavigate: (tab: string) => void, onSelect: (item: any) => void }) => {
     // Mock "Today" logic
     const today = new Date();
     const dayName = today.toLocaleDateString('en-US', { weekday: 'long' });
@@ -211,7 +211,7 @@ const HomeDashboard = ({ onNavigate, onSelect }) => {
     );
 };
 
-const DailyList = ({ onSelect }) => (
+const DailyList = ({ onSelect }: { onSelect: (item: any) => void }) => (
     <div className="list-container animate-slide-up">
         <h2>የዕለት ማስነገሪያዎች</h2>
         <div className="list-stack">
@@ -229,7 +229,7 @@ const DailyList = ({ onSelect }) => (
     </div>
 );
 
-const MonthlyGrid = ({ onSelect }) => (
+const MonthlyGrid = ({ onSelect }: { onSelect: (item: any) => void }) => (
     <div className="grid-container animate-slide-up">
         <h2>ወርኃ በዓላት</h2>
         <div className="calendar-grid">
@@ -243,7 +243,7 @@ const MonthlyGrid = ({ onSelect }) => (
     </div>
 );
 
-const AnnualList = ({ onSelect }) => (
+const AnnualList = ({ onSelect }: { onSelect: (item: any) => void }) => (
     <div className="list-container animate-slide-up">
         <h2>ዓመታዊ በዓላት</h2>
         <div className="timeline">
