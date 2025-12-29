@@ -178,7 +178,7 @@ const ExploreHero = ({ onNavigate }: { onNavigate?: (tab: string) => void }) => 
 
                                     {/* Amharic Tagline */}
                                     <p className="text-right text-amber-400/90 mt-6 font-serif text-2xl md:text-3xl tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                                        ሊካውንተ ኢትዮጵያዊያን  ቅኔ
+                                        ቅኔ ዘ ኢትዮጵያውያን ሊቃውንት
                                     </p>
 
                                     <p className="hidden md:block text-right text-amber-200/60 mt-4 max-w-md ml-auto font-light text-lg leading-relaxed">
